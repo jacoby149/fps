@@ -21,17 +21,14 @@ if (wapi.isSignedIn()) initApp();
 else wapi.authListen(initApp);
 
 function loadOpposition(conn,data) {
-    console.log(data)
     data["spheres"].map((opS,idx)=>{
         var s = spheres[10+idx]
-        s.collider.center.x = opS.x
-        s.collider.center.y = opS.y
-        s.collider.center.z = opS.z
-        s.velocity.x = opS.vX
-        s.velocity.y = opS.vY
-        s.velocity.z = opS.vZ
+        s.collider.center.copy(opS.pos)
+        s.velocity.copy(opS.vel)
         s.mesh.material.color = opS.color
     })
+    opMesh.position.copy(data["player"].pos);
+    opMesh.position.y = opMesh.position.y-.25;
 }
 
 function addOp(opponentUsername){
@@ -46,22 +43,14 @@ function sendState(spheres, playerVelocity, playerCollider) {
     const spheresData = spheres.slice(0,spheresPerPlayer).map((sphere, idx) => {
         return {
             idx: idx,
-            x: sphere.collider.center.x,
-            y: sphere.collider.center.y,
-            z: sphere.collider.center.z,
-            vX: sphere.velocity.x,
-            vY: sphere.velocity.y,
-            vZ: sphere.velocity.z,
+            pos: sphere.collider.center,
+            vel: sphere.velocity,
             color: sphere.mesh.material.color
         }
     })
     const player = {
-        x: playerCollider.x,
-        y: playerCollider.y,
-        z: playerCollider.z,
-        vX: playerVelocity.x,
-        vY: playerVelocity.y,
-        vZ: playerVelocity.z,
+        pos: playerCollider.end,
+        vel: playerVelocity,
         color: "red"
     }
     const data =             {

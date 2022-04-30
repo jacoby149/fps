@@ -92,6 +92,16 @@ const worldOctree = new Octree();
 
 const playerCollider = new Capsule( new THREE.Vector3( 0, 0.35, 0 ), new THREE.Vector3( 0, 1, 0 ), 0.35 );
 
+const opGeometry = new THREE.CylinderGeometry( .2,.05,1.2,8,1,false,0,2*Math.PI);
+const opMaterial = new THREE.MeshLambertMaterial( { color: 0xff2244 } );
+const opMesh = new THREE.Mesh( opGeometry,opMaterial );
+opMesh.castShadow = true;
+opMesh.receiveShadow = true;
+scene.add(  opMesh );
+
+
+window.opMesh=opMesh;
+
 const playerVelocity = new THREE.Vector3();
 const playerDirection = new THREE.Vector3();
 
@@ -214,7 +224,6 @@ function updatePlayer( deltaTime ) {
     playerCollisions();
 
     camera.position.copy( playerCollider.end );
-
 }
 
 function playerSphereCollision( sphere ) {
