@@ -22,11 +22,18 @@ button {
 	text-transform: uppercase;
 }
 
+#message {
+	color:yellow;
+}
+
 #info {
 	position: absolute;
+	background-color:#ffaa3333;
 	top: 0px;
-	width: 100%;
+	width: 40%;
 	padding: 10px;
+	margin-left:30%;
+	margin-right:30%;
 	box-sizing: border-box;
 	text-align: center;
 	-moz-user-select: none;
@@ -36,6 +43,7 @@ button {
 	pointer-events: none;
 	z-index: 1; /* TODO Solve this in HTML */
 }
+
 
 a, button, input, select {
 	pointer-events: auto;
