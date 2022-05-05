@@ -103,7 +103,7 @@ function makeOpMesh(){
 }
 
 // 7 opponents
-const opMeshes = Array(7).map(makeOpMesh)
+const opMeshes = [...Array(7)].map(makeOpMesh)
 window.opMeshes=opMeshes;
 
 const playerVelocity = new THREE.Vector3();
