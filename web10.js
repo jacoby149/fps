@@ -22,15 +22,15 @@ else wapi.authListen(initApp);
 
 function loadOpposition(conn,data) {
     const username = conn.peer.split(" ")[1]
-    const playerNum = [...ops].indexOf(username)+1;
+    const playerIdx = [...ops].indexOf(username);
     data["spheres"].map((opS,idx)=>{
-        var s = spheres[10*playerNum+idx]
+        var s = spheres[10*(playerIdx+1)+idx]
         s.collider.center.copy(opS.pos)
         s.velocity.copy(opS.vel)
         s.mesh.material.color = opS.color
     })
-    opMesh.position.copy(data["player"].pos);
-    opMesh.position.y = opMesh.position.y-.25;
+    opMeshes[playerIdx].position.copy(data["player"].pos);
+    opMeshes[playerIdx].position.y = opMesh.position.y-.25;
 }
 
 function addOp(opponentUsername){
