@@ -1,7 +1,7 @@
 
 /* wapi setup */
 const ops = new Set(); //set of opponent usernames
-const provider="api.web10.app"
+const provider = "api.web10.app"
 const wapi = wapiInit("https://auth.web10.app", "rtc.web10.app");
 authButton.onclick = wapi.openAuthPortal;
 
@@ -20,29 +20,35 @@ function initApp() {
 if (wapi.isSignedIn()) initApp();
 else wapi.authListen(initApp);
 
-function loadOpposition(conn,data) {
+function loadOpposition(conn, data) {
     const username = conn.peer.split(" ")[1]
     const playerIdx = [...ops].indexOf(username);
-    data["spheres"].map((opS,idx)=>{
-        var s = spheres[10*(playerIdx+1)+idx]
-        s.collider.center.copy(opS.pos)
-        s.velocity.copy(opS.vel)
-        s.mesh.material.color = opS.color
-    })
-    opMeshes[playerIdx].position.copy(data["player"].pos);
-    opMeshes[playerIdx].position.y = opMesh.position.y-.25;
+    
+    //if the player is in your lobby
+    if (playerIdx != -1) {
+        data["spheres"].map((opS, idx) => {
+            var s = spheres[10 * (playerIdx + 1) + idx]
+            s.collider.center.copy(opS.pos)
+            s.velocity.copy(opS.vel)
+            s.mesh.material.color = opS.color
+        })
+        console.log(playerIdx)
+        const opMesh = opMeshes[playerIdx];
+        opMesh.position.copy(data["player"].pos);
+        opMesh.position.y = opMesh.position.y - .25;
+    }
 }
 
-function addOp(opponentUsername){
+function addOp(opponentUsername) {
     ops.add(opponentUsername);
-    var lobby=""
-    ops.forEach((op)=>{lobby+=`${op}<br>`});
-    lobbyDiv.innerHTML=lobby;
+    var lobby = ""
+    ops.forEach((op) => { lobby += `${op}<br>` });
+    lobbyDiv.innerHTML = lobby;
 }
 
 //called on every frame to send physics data to other players
 function sendState(spheres, playerVelocity, playerCollider) {
-    const spheresData = spheres.slice(0,spheresPerPlayer).map((sphere, idx) => {
+    const spheresData = spheres.slice(0, spheresPerPlayer).map((sphere, idx) => {
         return {
             idx: idx,
             pos: sphere.collider.center,
@@ -55,7 +61,7 @@ function sendState(spheres, playerVelocity, playerCollider) {
         vel: playerVelocity,
         color: "red"
     }
-    const data =             {
+    const data = {
         spheres: spheresData,
         player: player
     }
@@ -66,6 +72,6 @@ function sendState(spheres, playerVelocity, playerCollider) {
             window.location.hostname,
             "fps-game-device",
             data
-            )
+        )
     })
 }
