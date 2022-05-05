@@ -22,7 +22,7 @@ else wapi.authListen(initApp);
 
 function loadOpposition(conn,data) {
     const username = conn.peer.split(" ")[1]
-    const playerNum = ops.indexOf(username)+1;
+    const playerNum = [...ops].indexOf(username)+1;
     data["spheres"].map((opS,idx)=>{
         var s = spheres[10*playerNum+idx]
         s.collider.center.copy(opS.pos)
