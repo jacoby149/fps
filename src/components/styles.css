@@ -33,11 +33,3 @@
     transition: filter 300ms;
   }
   
-  .icon-button:hover {
-  filter: brightness(1.2);
-}
-.icon-button svg { 
-    fill: var(--text-color);
-    width: 20px;
-    height: 20px;
-  }
