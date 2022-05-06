@@ -32,7 +32,6 @@ function loadOpposition(conn, data) {
             s.velocity.copy(opS.vel)
             s.mesh.material.color = opS.color
         })
-        console.log(playerIdx)
         const opMesh = opMeshes[playerIdx];
         opMesh.position.copy(data["player"].pos);
         opMesh.position.y = opMesh.position.y - .25;
